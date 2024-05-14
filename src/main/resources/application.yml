@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: smarkhis
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smarkhis
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8081
+
