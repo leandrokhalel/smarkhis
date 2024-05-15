@@ -1,9 +1,7 @@
 package br.com.leandrokhalel.smarkhis.services;
 
 import br.com.leandrokhalel.smarkhis.entities.Item;
-import br.com.leandrokhalel.smarkhis.entities.Mercado;
 import br.com.leandrokhalel.smarkhis.repositories.ItemRepository;
-import br.com.leandrokhalel.smarkhis.repositories.MercadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

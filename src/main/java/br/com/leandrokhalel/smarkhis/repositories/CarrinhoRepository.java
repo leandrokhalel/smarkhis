@@ -1,9 +1,9 @@
 package br.com.leandrokhalel.smarkhis.repositories;
 
-import br.com.leandrokhalel.smarkhis.entities.Mercado;
+import br.com.leandrokhalel.smarkhis.entities.Carrinho;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface MercadoRepository extends JpaRepository<Mercado, UUID> {
+public interface CarrinhoRepository extends JpaRepository<Carrinho, UUID> {
 }

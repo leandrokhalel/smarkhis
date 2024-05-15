@@ -1,9 +1,7 @@
 package br.com.leandrokhalel.smarkhis.controllers;
 
 import br.com.leandrokhalel.smarkhis.entities.Item;
-import br.com.leandrokhalel.smarkhis.entities.Mercado;
 import br.com.leandrokhalel.smarkhis.services.ItemService;
-import br.com.leandrokhalel.smarkhis.services.MercadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +25,11 @@ public class ItemController {
     public ResponseEntity<Item> create(@RequestBody Item item) {
         item = itemService.save(item);
         return ResponseEntity
-                .created(ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(item.getId()).toUri())
+                .created(ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(item.getId())
+                        .toUri())
                 .body(item);
     }
 }

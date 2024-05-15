@@ -1,25 +1,30 @@
 package br.com.leandrokhalel.smarkhis.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "item")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(name = "nome")
     private String nome;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
+    @ManyToMany(mappedBy = "itens")
+    @JsonIgnore
+    private List<Carrinho> carrinhos;
 }
