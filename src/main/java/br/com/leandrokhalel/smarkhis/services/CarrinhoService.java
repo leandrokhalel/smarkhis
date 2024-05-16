@@ -1,6 +1,6 @@
 package br.com.leandrokhalel.smarkhis.services;
 
-import br.com.leandrokhalel.smarkhis.dtos.CarrinhoDadosCriacao;
+import br.com.leandrokhalel.smarkhis.dtos.DadosCriacaoCarrinho;
 import br.com.leandrokhalel.smarkhis.entities.Carrinho;
 import br.com.leandrokhalel.smarkhis.entities.Item;
 import br.com.leandrokhalel.smarkhis.repositories.CarrinhoRepository;
@@ -25,8 +25,8 @@ public class CarrinhoService {
         this.itemRepository = itemRepository;
     }
 
-    public Carrinho salvar(CarrinhoDadosCriacao dadosCriacao) {
-        List<Item> itens = itemRepository.findAllById(dadosCriacao.itensIds());
+    public Carrinho salvar(DadosCriacaoCarrinho dadosCarrinho) {
+        List<Item> itens = itemRepository.findAllById(dadosCarrinho.itensIds());
         var carrinho = Carrinho.builder()
                 .itens(itens)
                 .build();

@@ -1,6 +1,6 @@
 package br.com.leandrokhalel.smarkhis.controllers;
 
-import br.com.leandrokhalel.smarkhis.dtos.CarrinhoDadosCriacao;
+import br.com.leandrokhalel.smarkhis.dtos.DadosCriacaoCarrinho;
 import br.com.leandrokhalel.smarkhis.entities.Carrinho;
 import br.com.leandrokhalel.smarkhis.services.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class CarrinhoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Carrinho> salvar(@RequestBody CarrinhoDadosCriacao dadosCarrinho) {
+    public ResponseEntity<Carrinho> salvar(@RequestBody DadosCriacaoCarrinho dadosCarrinho) {
         var carrinho = carrinhoService.salvar(dadosCarrinho);
         return ResponseEntity
                 .created(ServletUriComponentsBuilder
