@@ -1,6 +1,7 @@
 package br.com.leandrokhalel.smarkhis.services;
 
 import br.com.leandrokhalel.smarkhis.dtos.DadosCriacaoCarrinho;
+import br.com.leandrokhalel.smarkhis.dtos.DadosCriacaoUsuario;
 import br.com.leandrokhalel.smarkhis.entities.Carrinho;
 import br.com.leandrokhalel.smarkhis.entities.Item;
 import br.com.leandrokhalel.smarkhis.repositories.CarrinhoRepository;

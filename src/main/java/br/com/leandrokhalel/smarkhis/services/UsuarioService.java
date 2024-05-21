@@ -1,5 +1,6 @@
 package br.com.leandrokhalel.smarkhis.services;
 
+import br.com.leandrokhalel.smarkhis.dtos.DadosCriacaoUsuario;
 import br.com.leandrokhalel.smarkhis.entities.Usuario;
 import br.com.leandrokhalel.smarkhis.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,12 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario salvar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public Usuario salvar(DadosCriacaoUsuario dadosCriacaoUsuario) {
+        return usuarioRepository.save(Usuario.builder()
+                .nome(dadosCriacaoUsuario.nome())
+                .email(dadosCriacaoUsuario.email())
+                .senha(dadosCriacaoUsuario.senha())
+                .username(dadosCriacaoUsuario.username())
+                .build());
     }
 }

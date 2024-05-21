@@ -12,6 +12,8 @@ spring:
       hibernate:
         jdbc:
           time_zone: America/Sao_Paulo
+jwt:
+  secret: smarkhisv1
 
 server:
   port: 8081

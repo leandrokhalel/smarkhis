@@ -1,5 +1,6 @@
 package br.com.leandrokhalel.smarkhis.controllers;
 
+import br.com.leandrokhalel.smarkhis.dtos.DadosCriacaoUsuario;
 import br.com.leandrokhalel.smarkhis.entities.Usuario;
 import br.com.leandrokhalel.smarkhis.services.UsuarioService;
 import jakarta.validation.Valid;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/usuario")
@@ -25,8 +24,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> salvar(@RequestBody @Valid Usuario usuario) {
-            usuario = usuarioService.salvar(usuario);
+    public ResponseEntity<Object> salvar(@RequestBody @Valid DadosCriacaoUsuario dadosCriacaoUsuario) {
+            Usuario usuario = usuarioService.salvar(dadosCriacaoUsuario);
 
             return ResponseEntity
                     .created(ServletUriComponentsBuilder
