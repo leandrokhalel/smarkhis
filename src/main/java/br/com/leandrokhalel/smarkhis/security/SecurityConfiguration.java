@@ -3,7 +3,6 @@ package br.com.leandrokhalel.smarkhis.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,13 +16,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class ConfigSeguranca {
+public class SecurityConfiguration {
 
-    private FiltroSegurancaUsuario filtroSegurancaUsuario;
+    private UserSecurityFilter userSecurityFilter;
+    private final String[] SWAGGER_UI_PATHS = {"/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**"};
 
     @Autowired
-    public ConfigSeguranca(FiltroSegurancaUsuario filtroSegurancaUsuario) {
-        this.filtroSegurancaUsuario = filtroSegurancaUsuario;
+    public SecurityConfiguration(UserSecurityFilter userSecurityFilter) {
+        this.userSecurityFilter = userSecurityFilter;
     }
 
     @Bean
@@ -33,11 +33,12 @@ public class ConfigSeguranca {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/usuario/").permitAll();
-                    auth.requestMatchers("/usuario/autenticar/").permitAll();
+                    auth.requestMatchers("/user").permitAll();
+                    auth.requestMatchers("/user/auth").permitAll();
+                    auth.requestMatchers(SWAGGER_UI_PATHS).permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .addFilterBefore(filtroSegurancaUsuario, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(userSecurityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

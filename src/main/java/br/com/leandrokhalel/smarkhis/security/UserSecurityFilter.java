@@ -1,6 +1,6 @@
 package br.com.leandrokhalel.smarkhis.security;
 
-import br.com.leandrokhalel.smarkhis.repositories.UsuarioRepository;
+import br.com.leandrokhalel.smarkhis.repositories.UserRepository;
 import br.com.leandrokhalel.smarkhis.services.JwtTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,13 +15,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-public class FiltroSegurancaUsuario extends OncePerRequestFilter {
+public class UserSecurityFilter extends OncePerRequestFilter {
 
     private JwtTokenService jwtTokenService;
-    private UsuarioRepository usuarioRepository;
+    private UserRepository usuarioRepository;
 
     @Autowired
-    public FiltroSegurancaUsuario(JwtTokenService jwtTokenService, UsuarioRepository usuarioRepository) {
+    public UserSecurityFilter(JwtTokenService jwtTokenService, UserRepository usuarioRepository) {
         this.jwtTokenService = jwtTokenService;
         this.usuarioRepository = usuarioRepository;
     }
@@ -30,11 +30,14 @@ public class FiltroSegurancaUsuario extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getToken(request);
         if (token != null) {
-            var subject = jwtTokenService.getSubject(token);
-            var usuario = usuarioRepository.findByEmail(subject);
-
-            var auth = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            var tokenValidado = jwtTokenService.validateToken(token);
+            var usuario = usuarioRepository.findByUsername(tokenValidado.getSubject());
+            var id = tokenValidado.getClaim("userId");
+            if (usuario != null) {
+                request.setAttribute("userId", id);
+                var auth = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
         }
         filterChain.doFilter(request, response);
     }

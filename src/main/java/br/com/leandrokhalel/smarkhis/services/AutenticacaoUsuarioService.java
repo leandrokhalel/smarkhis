@@ -1,6 +1,6 @@
 package br.com.leandrokhalel.smarkhis.services;
 
-import br.com.leandrokhalel.smarkhis.repositories.UsuarioRepository;
+import br.com.leandrokhalel.smarkhis.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AutenticacaoUsuarioService implements UserDetailsService {
 
-    private UsuarioRepository usuarioRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public AutenticacaoUsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public AutenticacaoUsuarioService(UserRepository usuarioRepository) {
+        this.userRepository = usuarioRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 }

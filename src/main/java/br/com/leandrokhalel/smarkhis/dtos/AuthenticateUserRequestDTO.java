@@ -1,6 +1,6 @@
 package br.com.leandrokhalel.smarkhis.dtos;
 
-public record DadosAutenticacaoUsuario(
+public record AuthenticateUserRequestDTO(
         String username,
         String senha) {
 }

@@ -1,10 +1,11 @@
 package br.com.leandrokhalel.smarkhis.services;
 
-import br.com.leandrokhalel.smarkhis.entities.Usuario;
+import br.com.leandrokhalel.smarkhis.entities.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,13 @@ public class JwtTokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String gerarToken(Usuario usuario) {
+    public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("API Smarkhis")
-                    .withSubject(usuario.getUsername())
+                    .withSubject(user.getUsername())
+                    .withClaim("userId", user.getId().toString())
                     .withExpiresAt(Instant.now().plus(Duration.ofHours(2L)))
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
@@ -30,14 +32,13 @@ public class JwtTokenService {
         }
     }
 
-    public String getSubject(String tokenJWT) {
+    public DecodedJWT validateToken(String tokenJWT) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
                     .withIssuer("API Smarkhis")
                     .build()
-                    .verify(tokenJWT)
-                    .getSubject();
+                    .verify(tokenJWT);
         } catch (JWTVerificationException exception) {
             throw new RuntimeException("Erro ao verificar token JWT");
         }

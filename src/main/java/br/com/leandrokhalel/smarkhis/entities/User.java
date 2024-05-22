@@ -3,9 +3,9 @@ package br.com.leandrokhalel.smarkhis.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,36 +15,40 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "usuario")
+@Entity(name = "user_table")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Usuario implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Length(min = 4, max = 50, message = "o campo [nome] deve ter entre 4-50 caracteres")
-    @NotBlank(message = "o campo [nome] não pode estar em branco")
-    @Column(name = "nome", nullable = false, length = 50)
-    private String nome;
+    @Pattern(regexp = "^.{4,50}$", message = "o campo [name] deve ter entre 4-50 caracteres")
+    @NotBlank(message = "o campo [name] não pode estar em branco")
+    @Column(nullable = false, length = 50)
+    private String name;
 
-    @NotBlank
+    @NotBlank(message = "O campo [email] não pode estar em branco")
     @Email(message = "O campo [email] deve conter um e-mal válido")
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Pattern(regexp = "^.{4,30}$", message = "o campo [username] deve ter entre 4-30 caracteres")
+    @NotBlank(message = "O campo [username] não pode estar em branco")
+    @Column(unique = true, nullable = false, length = 20)
     private String username;
 
-    @Length(min = 8, message = "o campo [senha] deve conter no mínimo 8 caracteres")
-    @Column(name = "senha", nullable = false)
-    private String senha;
+    @Pattern(regexp = "^.{8,}$", message = "o campo [password] deve ter no mínimo 8 caracteres")
+    @NotBlank(message = "O campo [password] não pode estar em branco")
+    @Column(nullable = false)
+    private String password;
 
     @CreationTimestamp
-    @Column(name = "criado_em", nullable = false, updatable = false)
-    private Instant criadoEm;
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -53,12 +57,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return senha;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

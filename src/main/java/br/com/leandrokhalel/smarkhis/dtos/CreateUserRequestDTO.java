@@ -1,9 +1,9 @@
 package br.com.leandrokhalel.smarkhis.dtos;
 
-public record DadosCriacaoUsuario(
-        String nome,
+public record CreateUserRequestDTO(
+        String name,
         String email,
-        String senha,
+        String password,
         String username
 ) {
 }

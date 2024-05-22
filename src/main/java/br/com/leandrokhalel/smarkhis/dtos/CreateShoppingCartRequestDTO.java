@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.UUID;
 
-public record DadosCriacaoCarrinho(
+public record CreateShoppingCartRequestDTO(
 
-        @JsonProperty("itens")
-        List<UUID> itensIds
+        String nickname,
+
+        @JsonProperty("items_ids")
+        List<UUID> itemsIds
 ) {
 }
